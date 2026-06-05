@@ -1,8 +1,3 @@
-# Assignment 4: Co-related Subquery
-
-## Table Creation
-
-```sql
 CREATE TABLE sales (
     sale_id    INT PRIMARY KEY,
     rep_name   VARCHAR(100),
@@ -12,40 +7,26 @@ CREATE TABLE sales (
     month      VARCHAR(20),
     status     VARCHAR(20)
 );
-```
-
-## Insert Data
-
-```sql
-INSERT INTO sales VALUES
-(1, 'unnati', 'IT', 'kanpur', 30000.50, 'jan', 'active'),
-(2, 'priya', 'ITI', 'nagpur', 340000.07, 'feb', 'active'),
-(3, 'riya', 'SALES', 'durgapur', 530000.04, 'dec', 'not-active'),
-(4, 'diya', 'FINANCE', 'kaanakpur', 306000.50, 'march', 'not-active');
-```
-
-## View Table
-
-```sql
+ 
+INSERT INTO sales VALUES 
+(1 ,'unnati' , 'IT' , 'kanpur' , 30000.50 , 'jan' , 'active' ),
+(2 ,'priya' , 'ITI' , 'nagpur' , 340000.07 , 'feb' , 'active' ),
+(3 ,'riya' , 'SALES' , 'durgapur' , 530000.04 , 'dec' , 'not-active' ),
+(4 ,'diya' , 'FINANCE' , 'kaanakpur' , 306000.50 , 'march' , 'not-active' );
+ 
+ 
 SELECT * FROM sales;
-```
 
-## Problem Statement
+<!-- delete user whose salary is greater than 20% of total salary -->
+begin transaction;
 
-Find sales representatives whose sales amount is greater than the average sales amount of their own department.
-
-## Query
-
-```sql
-SELECT
-    s1.sale_id,
-    s1.rep_name,
-    s1.department,
-    s1.amount
-FROM sales s1
-WHERE s1.amount > (
-    SELECT AVG(s2.amount)
-    FROM sales s2
-    WHERE s2.department = s1.department
+delete from sales
+where amount > (
+    select sum(amount)*0.20 from sales
 );
-```
+
+select * from sales;
+
+
+commit;
+rollback;
