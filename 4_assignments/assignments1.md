@@ -1,3 +1,8 @@
+# Sales Table SQL Script
+
+## Table Creation
+
+```sql
 CREATE TABLE sales (
     sale_id    INT PRIMARY KEY,
     rep_name   VARCHAR(100),
@@ -7,26 +12,40 @@ CREATE TABLE sales (
     month      VARCHAR(20),
     status     VARCHAR(20)
 );
- 
+```
+
+## Insert Data
+
+```sql
 INSERT INTO sales VALUES 
 (1 ,'unnati' , 'IT' , 'kanpur' , 30000.50 , 'jan' , 'active' ),
 (2 ,'priya' , 'ITI' , 'nagpur' , 340000.07 , 'feb' , 'active' ),
 (3 ,'riya' , 'SALES' , 'durgapur' , 530000.04 , 'dec' , 'not-active' ),
 (4 ,'diya' , 'FINANCE' , 'kaanakpur' , 306000.50 , 'march' , 'not-active' );
- 
- 
+```
+
+## View Data
+
+```sql
 SELECT * FROM sales;
+```
 
-<!-- delete user whose salary is greater than 20% of total salary -->
-begin transaction;
+## Transaction: Delete High Salary Records
 
-delete from sales
-where amount > (
-    select sum(amount)*0.20 from sales
+> Delete users whose salary (amount) is greater than 20% of total salary.
+
+```sql
+BEGIN TRANSACTION;
+
+DELETE FROM sales
+WHERE amount > (
+    SELECT SUM(amount) * 0.20 FROM sales
 );
 
-select * from sales;
+SELECT * FROM sales;
 
+COMMIT;
 
-commit;
-rollback;
+-- If needed to undo changes before commit:
+-- ROLLBACK;
+```
